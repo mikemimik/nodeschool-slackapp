@@ -91,6 +91,7 @@ function getLatestEvent() {
       ]
     );
     const latestEvent = sortedEvents.pop();
+    console.log('latestEvent:', latestEvent);
     return latestEvent;
   }
   return request(options).then(callback);
