@@ -74,6 +74,7 @@ function getLatestEvent() {
     }
   };
   const callback = function(body) {
+    console.log('body:', body);
     const sortedEvents = _.sortBy(
       body.data,
       [
