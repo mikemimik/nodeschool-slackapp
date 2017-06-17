@@ -174,10 +174,32 @@ function checkInUser(data) {
     json: true,
     body: payload
   };
-  const callback = function(data) {
-    console.log('TESTING from POST');
-    console.log('data:', data);
-    return data;
+  return request(options).then((data) => data);
+}
+
+function handleSlackResponse(err, data) {
+  let mainText = 'Successfully Checked In';
+  const attachments = [];
+  attachments.push({text: `${data.event.attributes.title} Event`});
+  if (err) {
+    mainText = 'Failed Check In';
   }
-  return request(options).then(callback);
+  const payload = {
+      text: mainText,
+      attachments: [
+        {
+          text: `${data.event.attributes.title} Event`
+        }
+      ]
+    };
+    const options = {
+      method: 'post',
+      url: response_url,
+      json: true,
+      body: payload
+    }
+    return request(options).then((slackResponse) => {
+      console.log('slackResponse:', slackResponse);
+      console.log(`Check In: ${data.ticket.attributes.name}`);
+    });
 }
