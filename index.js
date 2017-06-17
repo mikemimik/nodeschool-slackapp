@@ -94,7 +94,7 @@ function getLatestEvent() {
 
 function getCheckinList(event) {
   const api = 'https://api.tito.io/v2/nodeschool-toronto';
-  const endpoint = `/${event}/checkin_lists`;
+  const endpoint = `/${event.attributes.slub}/checkin_lists`;
   const options = {
     method: 'get',
     url: api + endpoint,
