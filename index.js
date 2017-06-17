@@ -56,10 +56,10 @@ app.post('/checkin', (req, res) => {
     .then(() => {
       console.log('data:', data);
       const payload = {
-        text: `Successfully checked into ${data.event.attributes.title} event`,
+        text: 'Successfully Checked In',
         attachments: [
           {
-            text: 'looks like quoted text'
+            text: `${data.event.attributes.title} Event`
           }
         ]
       };
