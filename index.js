@@ -57,7 +57,7 @@ app.post('/checkin', (req, res) => {
     })
     .then((checkinResponse) => {
       console.log('checkinResponse:', checkinResponse);
-      return handleSlackResponse(null, data);
+      return handleSlackResponse(null, data, response_url);
     })
     .catch((err) => {
       console.log('caught error:', err);
@@ -180,7 +180,7 @@ function checkInUser(data) {
   return request(options).then((data) => data);
 }
 
-function handleSlackResponse(err, data) {
+function handleSlackResponse(err, data, response_url) {
   let mainText = 'Successfully Checked In';
   const attachments = [];
   attachments.push({text: `${data.event.attributes.title} Event`});
