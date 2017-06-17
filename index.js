@@ -58,6 +58,9 @@ app.post('/checkin', (req, res) => {
     .then((checkinResponse) => {
       console.log('checkinResponse:', checkinResponse);
       return handleSlackResponse(null, data);
+    })
+    .catch((err) => {
+      console.log('caught error:', err);
     });
 });
 
