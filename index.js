@@ -16,12 +16,18 @@ app.get('/', (req, res) => {
 
 app.post('/checkin', (req, res) => {
   const { params, query, headers, body } = req;
+  const { token, team_id, command } = body;
   const keys = Object.keys(req);
-  console.log('body:', req.body);
+  console.log('body:', body);
   console.log('keys:', keys);
 
-  // todo: check `token`
-  // todo: check `team_id`
+  if (
+    process.env.SLACKAPP_TOKEN !== token ||
+    process.env.SLACKAPP_TEAMID !== team_id ||
+    command !== '/checkin'
+  ) {
+    res.json({ text: 'something went wrong.'});
+  }
 
   // todo: set header of response `application/json`
   // todo: response with 200 "OK"
