@@ -87,3 +87,20 @@ function getLatestEvent() {
   }
   return request(options).then(callback);
 }
+
+function getCheckinList(event) {
+  const api = 'https://api.tito.io/v2/nodeschool-toronto';
+  const endpoint = `/${event}/checkin_lists`;
+  const options = {
+    method: 'get',
+    url: api + endpoint,
+    headers: {
+      'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
+      'Accept': 'application/vnd.api+json'
+    }
+  };
+  const callback = function(body) {
+    return body.data[0];
+  }
+  return request(options).then(callback);
+}
