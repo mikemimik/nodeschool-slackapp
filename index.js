@@ -1,11 +1,13 @@
 'use strict';
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.send('Hello World!')
 });
@@ -13,7 +15,7 @@ app.get('/', (req, res) => {
 app.post('/checkin', (req, res) => {
   const { params, query, headers, body } = req;
   const keys = Object.keys(req);
-  console.log('body:', body);
+  console.log('body:', req.body);
   console.log('keys:', keys);
 
   // todo: check `token`
