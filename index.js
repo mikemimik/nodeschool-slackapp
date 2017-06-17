@@ -1,7 +1,9 @@
 'use strict';
 
-const express = require('express');
 const bodyParser = require('body-parser');
+const request = require('request-promise');
+const express = require('express');
+const lodash = require('lodash');
 const app = express();
 
 app.set('port', (process.env.PORT || 5000));
