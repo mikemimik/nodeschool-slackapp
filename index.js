@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 
 app.post('/checkin', (req, res) => {
   const { params, query, headers, body } = req;
-  const { token, team_id, command, text } = body;
+  const { token, team_id, command, text, response_url } = body;
   const keys = Object.keys(req);
   // console.log('body:', body);
   // console.log('keys:', keys);
@@ -27,7 +27,7 @@ app.post('/checkin', (req, res) => {
     process.env.SLACKAPP_TEAMID !== team_id ||
     command !== '/checkin'
   ) {
-    res.json({ text: 'something went wrong.'});
+    return res.json({ text: 'something went wrong.'});
   }
 
   const emailRegex = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/gi;
@@ -38,13 +38,40 @@ app.post('/checkin', (req, res) => {
     if (!email) email = token[0];
   }
 
+  const data = {};
+  res.status(200).send('OK');
   getLatestEvent()
-    .then((data) => {
-      console.log('data:', data);
+    .then((event) => {
+      data.event = event;
+      return getCheckinList(event);
     })
-    .then(getCheckinList)
-    .then((data) => {
-      res.json({ test: 'working' });
+    .then((checkinList) => {
+      data.checkinList = checkinList;
+      return getTicket(data.event, email);
+    })
+    .then((ticket) => {
+      data.ticket = ticket;
+      return checkInUser(data);
+    })
+    .then(() => {
+      console.log('data:', data);
+      const payload = {
+        text: 'Successfully checked into ${data.event.attributes.title} event',
+        attachments: [
+          {
+            text: 'looks like quoted text'
+          }
+        ]
+      };
+      const options = {
+        method: 'post',
+        url: response_url,
+        json: true,
+        body: payload
+      }
+      return request(options).then((slackResponse) => {
+        console.log('slackResponse:', slackResponse);
+      });
     });
   /**
    * {
@@ -72,10 +99,10 @@ function getLatestEvent() {
     headers: {
       'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
       'Accept': 'application/vnd.api+json'
-    }
+    },
+    json: true
   };
   const callback = function(body) {
-    console.log('body:', body);
     const sortedEvents = _.sortBy(
       body.data,
       [
@@ -92,14 +119,12 @@ function getLatestEvent() {
       ]
     );
     const latestEvent = sortedEvents.pop();
-    console.log('latestEvent:', latestEvent);
     return latestEvent;
   }
   return request(options).then(callback);
 }
 
 function getCheckinList(event) {
-  console.log('event:', event);
   const api = 'https://api.tito.io/v2/nodeschool-toronto';
   const endpoint = `/${event.attributes.slug}/checkin_lists`;
   const options = {
@@ -108,10 +133,79 @@ function getCheckinList(event) {
     headers: {
       'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
       'Accept': 'application/vnd.api+json'
-    }
+    },
+    json: true
   };
   const callback = function(body) {
     return body.data[0];
+  }
+  return request(options).then(callback);
+}
+
+function getTicket(event, email) {
+  const api = 'https://api.tito.io/v2/nodeschool-toronto';
+  const endpoint = `/${event.attributes.slug}/tickets`;
+  const options = {
+    method: 'get',
+    url: api + endpoint,
+    headers: {
+      'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
+      'Accept': 'application/vnd.api+json'
+    },
+    json: true
+  };
+  const callback = function(body) {
+    const tickets = body.data;
+    const ticket = _.find(tickets, (ticket) => {
+      return ticket.attributes.email === email;
+    });
+    return ticket;
+  };
+  return request(options).then(callback);
+}
+
+function checkInUser(data) {
+  const api = 'https://api.tito.io/v2/nodeschool-toronto';
+  const event = data.event.attributes.slug;
+  const checkinList = data.checkinList.id;
+  const ticket = data.ticket.id;
+  const endpoint = `/${event}/checkin_lists/${checkinList}/checkins`;
+  const payload = {
+      data: {
+          type: "checkins",
+          attributes: {
+              'created-at': moment().format()
+          },
+          relationships: {
+              'checkin-list': {
+                  data: {
+                      type: "checkin-lists",
+                      id: checkinList
+                  }
+              },
+              ticket: {
+                  data: {
+                      type: "tickets",
+                      id: ticket
+                  }
+              }
+          }
+      }
+  };
+  const options = {
+    method: 'post',
+    url: api + endpoint,
+    headers: {
+      'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
+      'Accept': 'application/vnd.api+json'
+    },
+    json: true,
+    body: payload
+  };
+  const callback = function(data) {
+    console.log('TESTING from POST');
+    console.log('data:', data);
+    return data;
   }
   return request(options).then(callback);
 }
