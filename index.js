@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/checkin', (req, res) => {
-  const { params, query, headers, body } = req;
+  // const { params, query, headers, body } = req;
   const keys = Object.keys(req);
   console.log('body:', body);
   console.log('keys:', keys);
