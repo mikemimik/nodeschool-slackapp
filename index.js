@@ -11,7 +11,27 @@ app.get('/', (req, res) => {
 });
 
 app.post('/checkin', (req, res) => {
-  console.log('req:', req);
+  const { params, query, headers, body } = req;
+  const keys = Object.keys(req);
+  console.log('body:', body);
+  console.log('keys:', keys);
+
+  // todo: check `token`
+  // todo: check `team_id`
+
+  // todo: set header of response `application/json`
+  // todo: response with 200 "OK"
+
+  /**
+   * {
+   *  text: "some reply",
+   *  attachments: [
+   *    {
+   *      text: "looks like quoted text"
+   *    }
+   *  ]
+   * }
+   */
   res.end();
 });
 
