@@ -53,3 +53,37 @@ app.post('/checkin', (req, res) => {
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'));
 });
+
+
+function getLatestEvent() {
+  const api = 'https://api.tito.io/v2/nodeschool-toronto';
+  const endpoint = '/events';
+  const options = {
+    method: 'get',
+    url: api + endpoint,
+    headers: {
+      'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
+      'Accept': 'application/vnd.api+json'
+    }
+  };
+  const callback = function(body) {
+    const sortedEvents = _.sortBy(
+      body.data,
+      [
+        (event) => {
+          const date = event.attributes['start-date'];
+          const year = date.split('-')[0];
+          return year;
+        },
+        (event) => {
+          const date = event.attributes['start-date'];
+          const month = date.split('-')[1];
+          return month;
+        }
+      ]
+    );
+    const latestEvent = sortedEvents.pop();
+    return latestEvent;
+  }
+  return request(options).then(callback);
+}
