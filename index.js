@@ -38,6 +38,9 @@ app.post('/checkin', (req, res) => {
   }
 
   getLatestEvent()
+    .then((data) => {
+      console.log('data:', data);
+    })
     .then(getCheckinList)
     .then((data) => {
       res.json({ test: 'working' });
@@ -93,8 +96,9 @@ function getLatestEvent() {
 }
 
 function getCheckinList(event) {
+  console.log('event:', event);
   const api = 'https://api.tito.io/v2/nodeschool-toronto';
-  const endpoint = `/${event.attributes.slub}/checkin_lists`;
+  const endpoint = `/${event.attributes.slug}/checkin_lists`;
   const options = {
     method: 'get',
     url: api + endpoint,
