@@ -54,7 +54,7 @@ app.post('/checkin', (req, res) => {
       return checkInUser(data);
     })
     .then(() => {
-      console.log('data:', data);
+      // console.log('data:', data);
       const payload = {
         text: 'Successfully Checked In',
         attachments: [
@@ -71,6 +71,7 @@ app.post('/checkin', (req, res) => {
       }
       return request(options).then((slackResponse) => {
         console.log('slackResponse:', slackResponse);
+        console.log(`Check In: ${data.ticket.attributes.name}`);
       });
     });
   /**
