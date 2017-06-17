@@ -19,8 +19,8 @@ app.post('/checkin', (req, res) => {
   const { params, query, headers, body } = req;
   const { token, team_id, command, text } = body;
   const keys = Object.keys(req);
-  console.log('body:', body);
-  console.log('keys:', keys);
+  // console.log('body:', body);
+  // console.log('keys:', keys);
 
   if (
     process.env.SLACKAPP_TOKEN !== token ||
@@ -34,7 +34,7 @@ app.post('/checkin', (req, res) => {
   let email;
   for (let token, i = 0; (token = emailRegex.exec(text)) !== null; i++) {
     if (token.index === emailRegex.lastIndex) emailRegex.lastIndex++;   
-    console.log(`token ${i}:`, token);
+    // console.log(`token ${i}:`, token);
     if (!email) email = token[0];
   }
 
