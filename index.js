@@ -7,6 +7,8 @@ const moment = require('moment');
 const _ = require('lodash');
 const app = express();
 
+const api = 'https://api.tito.io/v2/nodeschool-toronto';
+
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
@@ -92,7 +94,6 @@ app.listen(app.get('port'), function() {
 
 
 function getLatestEvent() {
-  const api = 'https://api.tito.io/v2/nodeschool-toronto';
   const endpoint = '/events';
   const options = {
     method: 'get',
@@ -126,7 +127,6 @@ function getLatestEvent() {
 }
 
 function getCheckinList(event) {
-  const api = 'https://api.tito.io/v2/nodeschool-toronto';
   const endpoint = `/${event.attributes.slug}/checkin_lists`;
   const options = {
     method: 'get',
@@ -144,7 +144,6 @@ function getCheckinList(event) {
 }
 
 function getTicket(event, email) {
-  const api = 'https://api.tito.io/v2/nodeschool-toronto';
   const endpoint = `/${event.attributes.slug}/tickets`;
   const options = {
     method: 'get',
@@ -166,7 +165,6 @@ function getTicket(event, email) {
 }
 
 function checkInUser(data) {
-  const api = 'https://api.tito.io/v2/nodeschool-toronto';
   const event = data.event.attributes.slug;
   const checkinList = data.checkinList.id;
   const ticket = data.ticket.id;
