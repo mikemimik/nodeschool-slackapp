@@ -37,6 +37,11 @@ app.post('/checkin', (req, res) => {
     if (!email) email = token[0];
   }
 
+  const p = getLatestEvent()
+    .then(getCheckinList)
+    .then((data) => {
+      return { test: 'working' };
+    });
   /**
    * {
    *  text: "some reply",
@@ -47,7 +52,7 @@ app.post('/checkin', (req, res) => {
    *  ]
    * }
    */
-  res.end();
+  res.json(p);
 });
 
 app.listen(app.get('port'), function() {
