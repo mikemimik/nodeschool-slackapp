@@ -29,8 +29,13 @@ app.post('/checkin', (req, res) => {
     res.json({ text: 'something went wrong.'});
   }
 
-  // todo: set header of response `application/json`
-  // todo: response with 200 "OK"
+  const emailRegex = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/gi;
+  let email;
+  for (let token, i = 0; (token = emailRegex.exec(text)) !== null; i++) {
+    if (token.index === emailRegex.lastIndex) emailRegex.lastIndex++;   
+    console.log(`token ${i}:`, token);
+    if (!email) email = token[0];
+  }
 
   /**
    * {
