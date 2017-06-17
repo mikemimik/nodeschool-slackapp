@@ -1,13 +1,20 @@
-var express = require('express')
-var app = express()
+'use strict';
 
-app.set('port', (process.env.PORT || 5000))
-app.use(express.static(__dirname + '/public'))
+const express = require('express');
+const app = express();
 
-app.get('/', function(request, response) {
-  response.send('Hello World!')
-})
+app.set('port', (process.env.PORT || 5000));
+app.use(express.static(__dirname + '/public'));
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+});
+
+app.post('/checkin', (req, res) => {
+  console.log('req:', req);
+  res.end();
+});
 
 app.listen(app.get('port'), function() {
-  console.log("Node app is running at localhost:" + app.get('port'))
-})
+  console.log("Node app is running at localhost:" + app.get('port'));
+});
