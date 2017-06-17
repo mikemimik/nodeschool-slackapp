@@ -8,6 +8,13 @@ const _ = require('lodash');
 const app = express();
 
 const api = 'https://api.tito.io/v2/nodeschool-toronto';
+const defaultOptions = {
+  headers: {
+    'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
+    'Accept': 'application/vnd.api+json'
+  },
+  json: true
+};
 
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
@@ -73,12 +80,7 @@ function getLatestEvent() {
   const endpoint = '/events';
   const options = {
     method: 'get',
-    url: api + endpoint,
-    headers: {
-      'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
-      'Accept': 'application/vnd.api+json'
-    },
-    json: true
+    url: api + endpoint
   };
   const callback = function(body) {
     const sortedEvents = _.sortBy(
@@ -99,36 +101,26 @@ function getLatestEvent() {
     const latestEvent = sortedEvents.pop();
     return latestEvent;
   }
-  return request(options).then(callback);
+  return request(_.merge(defaultOptions, options)).then(callback);
 }
 
 function getCheckinList(event) {
   const endpoint = `/${event.attributes.slug}/checkin_lists`;
   const options = {
     method: 'get',
-    url: api + endpoint,
-    headers: {
-      'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
-      'Accept': 'application/vnd.api+json'
-    },
-    json: true
+    url: api + endpoint
   };
   const callback = function(body) {
     return body.data[0];
   }
-  return request(options).then(callback);
+  return request(_.merge(defaultOptions, options)).then(callback);
 }
 
 function getTicket(event, email) {
   const endpoint = `/${event.attributes.slug}/tickets`;
   const options = {
     method: 'get',
-    url: api + endpoint,
-    headers: {
-      'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
-      'Accept': 'application/vnd.api+json'
-    },
-    json: true
+    url: api + endpoint
   };
   const callback = function(body) {
     const tickets = body.data;
@@ -137,7 +129,7 @@ function getTicket(event, email) {
     });
     return ticket;
   };
-  return request(options).then(callback);
+  return request(_.merge(defaultOptions, options)).then(callback);
 }
 
 function checkInUser(data) {
@@ -170,14 +162,9 @@ function checkInUser(data) {
   const options = {
     method: 'post',
     url: api + endpoint,
-    headers: {
-      'Authorization': `Token token=${process.env.SLACKAPP_TITO_API_KEY}`,
-      'Accept': 'application/vnd.api+json'
-    },
-    json: true,
     body: payload
   };
-  return request(options).then((data) => data);
+  return request(_.merge(defaultOptions, options)).then((data) => data);
 }
 
 function handleSlackResponse(err, data, response_url) {
