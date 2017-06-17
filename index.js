@@ -55,37 +55,10 @@ app.post('/checkin', (req, res) => {
       data.ticket = ticket;
       return checkInUser(data);
     })
-    .then(() => {
-      // console.log('data:', data);
-      const payload = {
-        text: 'Successfully Checked In',
-        attachments: [
-          {
-            text: `${data.event.attributes.title} Event`
-          }
-        ]
-      };
-      const options = {
-        method: 'post',
-        url: response_url,
-        json: true,
-        body: payload
-      }
-      return request(options).then((slackResponse) => {
-        console.log('slackResponse:', slackResponse);
-        console.log(`Check In: ${data.ticket.attributes.name}`);
-      });
+    .then((checkinResponse) => {
+      console.log('checkinResponse:', checkinResponse);
+      return handleSlackResponse(null, data);
     });
-  /**
-   * {
-   *  text: "some reply",
-   *  attachments: [
-   *    {
-   *      text: "looks like quoted text"
-   *    }
-   *  ]
-   * }
-   */
 });
 
 app.listen(app.get('port'), function() {
