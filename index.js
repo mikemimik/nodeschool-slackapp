@@ -39,7 +39,7 @@ app.post('/checkin', (req, res) => {
   }
 
   const data = {};
-  res.status(200).send('OK');
+  res.status(200).end();
   getLatestEvent()
     .then((event) => {
       data.event = event;
@@ -56,7 +56,7 @@ app.post('/checkin', (req, res) => {
     .then(() => {
       console.log('data:', data);
       const payload = {
-        text: 'Successfully checked into ${data.event.attributes.title} event',
+        text: `Successfully checked into ${data.event.attributes.title} event`,
         attachments: [
           {
             text: 'looks like quoted text'
