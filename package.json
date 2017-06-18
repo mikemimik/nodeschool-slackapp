@@ -34,5 +34,11 @@
   "contributors": [
     "Michael Perrotte <mikemimik@gmail.com> (http://github.com/mikemimik)"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2",
+    "proxyquire": "^1.8.0",
+    "sinon": "^2.3.4"
+  }
 }
