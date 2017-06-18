@@ -1,7 +1,7 @@
 {
-  "name": "Node.js Sample",
+  "name": "Node.js Express App",
   "description": "A barebones Node.js app using Express 4",
-  "repository": "https://github.com/heroku/node-js-sample",
-  "logo": "https://rawgit.com/heroku/node-js-sample/master/public/node.svg",
-  "keywords": ["node", "express", "static"]
+  "repository": "https://github.com/mikemimik/nodeschool-slackapp",
+  "logo": "http://nodeschool.io/toronto/i/nodeschool-toronto-logo.svg",
+  "keywords": ["node", "express", "app"]
 }

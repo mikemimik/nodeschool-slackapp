@@ -7,8 +7,8 @@ A barebones Node.js app using [Express 4](http://expressjs.com/).
 Make sure you have [Node.js](http://nodejs.org/) and _(optionally)_ the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed.
 
 ```sh
-git clone git@github.com:heroku/node-js-sample.git # or clone your own fork
-cd node-js-sample
+git clone git@github.com:mikemimik/nodeschool-slackapp.git # or clone your own fork
+cd nodeschool-slackapp
 npm install
 npm start
 ```

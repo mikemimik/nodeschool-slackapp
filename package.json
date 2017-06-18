@@ -1,7 +1,7 @@
 {
-  "name": "node-js-sample",
-  "version": "0.2.0",
-  "description": "A sample Node.js app using Express 4",
+  "name": "nodeschool-slackapp",
+  "version": "0.1.0",
+  "description": "A simple express app to be the backend for the NodeSchool Toronto SlackApp",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -19,16 +19,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-sample"
+    "url": "https://github.com/mikemimik/nodeschool-slackapp"
   },
   "keywords": [
     "node",
     "heroku",
-    "express"
+    "express",
+    "nodeschool",
+    "slack",
+    "app",
+    "toronto"
   ],
-  "author": "Mark Pundsack",
+  "author": "Michael Perrotte",
   "contributors": [
-    "Zeke Sikelianos <zeke@sikelianos.com> (http://zeke.sikelianos.com)"
+    "Michael Perrotte <mikemimik@gmail.com> (http://github.com/mikemimik)"
   ],
   "license": "MIT"
 }
