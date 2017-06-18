@@ -1,8 +1,10 @@
 'use strict';
 
 const express = require('express');
-const router = express.Router();
+const request = require('request-promise');
 const titoApi = require('../api/tito');
+
+const router = express.Router();
 
 router.route('/')
   .post((req, res, next) => {
@@ -42,7 +44,7 @@ router.route('/')
       })
       .then((ticket) => {
         data.ticket = ticket;
-        return checkInUser(data);
+        return titoApi.checkInUser(data);
       })
       .then((checkinResponse) => {
         console.log('checkinResponse:', checkinResponse);
