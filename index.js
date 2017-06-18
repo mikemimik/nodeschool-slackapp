@@ -21,15 +21,13 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('NodeSchool Toronto SlackApp Server Online');
 });
 
 app.post('/checkin', (req, res) => {
   const { params, query, headers, body } = req;
   const { token, team_id, command, text, response_url } = body;
   const keys = Object.keys(req);
-  // console.log('body:', body);
-  // console.log('keys:', keys);
 
   if (
     process.env.SLACKAPP_TOKEN !== token ||
