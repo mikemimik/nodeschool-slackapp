@@ -176,11 +176,7 @@ function handleSlackResponse(err, data, response_url) {
   }
   const payload = {
       text: mainText,
-      attachments: [
-        {
-          text: `${data.event.attributes.title} Event`
-        }
-      ]
+      attachments,
     };
     const options = {
       method: 'post',
