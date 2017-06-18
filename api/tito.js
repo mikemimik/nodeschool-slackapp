@@ -13,7 +13,7 @@ const defaultOptions = {
   json: true
 };
 
-module.exports.getLastestEvent = function getLatestEvent() {
+module.exports.getLatestEvent = function() {
   const endpoint = '/events';
   const options = {
     method: 'get',
@@ -41,7 +41,7 @@ module.exports.getLastestEvent = function getLatestEvent() {
   return request(_.merge(defaultOptions, options)).then(callback);
 }
 
-module.exports.getCheckinList = function getCheckinList(event) {
+module.exports.getCheckinList = function(event) {
   const endpoint = `/${event.attributes.slug}/checkin_lists`;
   const options = {
     method: 'get',
@@ -69,7 +69,7 @@ function getTicket(event, email) {
   return request(_.merge(defaultOptions, options)).then(callback);
 }
 
-module.exports.checkInUser = function checkInUser(data) {
+module.exports.checkInUser = function(data) {
   const event = data.event.attributes.slug;
   const checkinList = data.checkinList.id;
   const ticket = data.ticket.id;
