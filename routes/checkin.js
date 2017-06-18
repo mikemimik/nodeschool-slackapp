@@ -53,6 +53,9 @@ router.route('/')
     });
   });
 
+module.exports = router;
+
+// HELPER FUNCTIONS
 function handleSlackResponse(err, data, response_url) {
   let mainText = 'Successfully Checked In';
   const attachments = [];
