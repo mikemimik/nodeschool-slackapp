@@ -53,7 +53,7 @@ module.exports.getCheckinList = function(event) {
   return request(_.merge(defaultOptions, options)).then(callback);
 }
 
-function getTicket(event, email) {
+module.exports.getTicket = function(event, email) {
   const endpoint = `/${event.attributes.slug}/tickets`;
   const options = {
     method: 'get',
