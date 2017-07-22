@@ -20,7 +20,6 @@ module.exports.getLatestEvent = function() {
     url: api + endpoint
   };
   const callback = function(body) {
-    console.log('body:', body.data);
     const sortedEvents = _.sortBy(
       body.data,
       [
