@@ -25,13 +25,17 @@ module.exports.getLatestEvent = function() {
       body.data,
       [
         (event) => {
-          const date = event.attributes['start-date'];
+          const date = (event.attributes['start-date'])
+            ? event.attributes['start-date']
+            : event.attributes['end-date'];
           const year = (date) ? date.split('-')[0] : null;
           if (!year) logger.debug('Event Attributes:', event.attributes);
           return year;
         },
         (event) => {
-          const date = event.attributes['start-date'];
+          const date = (event.attributes['start-date'])
+            ? event.attributes['start-date']
+            : event.attributes['end-date'];
           const month = (date) ? date.split('-')[1] : null;
           if (!month) logger.debug('Event Attributes:', event.attributes);
           return month;
