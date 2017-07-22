@@ -3,6 +3,7 @@
 const express = require('express');
 const request = require('request-promise');
 const titoApi = require('../api/tito');
+const logger = require('../utils/logger').getLogger('debug');
 
 const router = express.Router();
 
@@ -47,11 +48,11 @@ router.route('/')
         return titoApi.checkInUser(data);
       })
       .then((checkinResponse) => {
-        console.log('checkinResponse:', checkinResponse);
+        logger.info('checkinReponse:', checkinResponse);
         return handleSlackResponse(null, data, response_url);
       })
       .catch((err) => {
-        console.log('caught error:', err);
+        logger.error('caught error:', err);
     });
   });
 
@@ -76,7 +77,7 @@ function handleSlackResponse(err, data, response_url) {
       body: payload
     }
     return request(options).then((slackResponse) => {
-      console.log('slackResponse:', slackResponse);
-      console.log(`Check In: ${data.ticket.attributes.name}`);
+      logger.info('slackResponse:', slackResponse);
+      logger.debug(`Check In: ${data.ticket.attributes.name}`);
     });
 }

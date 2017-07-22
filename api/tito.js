@@ -3,6 +3,7 @@
 const request = require('request-promise');
 const moment = require('moment');
 const _ = require('lodash');
+const logger = require('../utils/logger').getLogger('debug');
 
 const api = 'https://api.tito.io/v2/nodeschool-toronto';
 const defaultOptions = {
@@ -26,11 +27,13 @@ module.exports.getLatestEvent = function() {
         (event) => {
           const date = event.attributes['start-date'];
           const year = (date) ? date.split('-')[0] : null;
+          if (!year) logger.debug('Event Attributes:', event.attributes);
           return year;
         },
         (event) => {
           const date = event.attributes['start-date'];
           const month = (date) ? date.split('-')[1] : null;
+          if (!month) logger.debug('Event Attributes:', event.attributes);
           return month;
         }
       ]
