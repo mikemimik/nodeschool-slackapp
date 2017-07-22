@@ -26,12 +26,12 @@ module.exports.getLatestEvent = function() {
       [
         (event) => {
           const date = event.attributes['start-date'];
-          const year = date.split('-')[0];
+          const year = (date) ? date.split('-')[0] : null;
           return year;
         },
         (event) => {
           const date = event.attributes['start-date'];
-          const month = date.split('-')[1];
+          const month = (date) ? date.split('-')[1] : null;
           return month;
         }
       ]
