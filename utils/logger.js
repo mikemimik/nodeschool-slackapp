@@ -6,7 +6,7 @@ const Colors = require('colors/safe');
 const DefaultTransport = new Winston.transports.Console({
     colorize: true,
     prettyPrint: true,
-    depth: 1
+    depth: 3
 });
 
 const getLogger = function getLogger(level) {
