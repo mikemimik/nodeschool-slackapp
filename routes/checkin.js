@@ -18,7 +18,7 @@ router.route('/')
       process.env.SLACKAPP_TEAMID !== team_id ||
       command !== '/checkin'
     ) {
-      return res.json({ text: 'something went wrong.'});
+      return res.json({ text: 'Something went wrong.'});
     }
 
     const emailRegex = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/gi;
@@ -67,17 +67,17 @@ function handleSlackResponse(err, data, response_url) {
     mainText = 'Failed Check In';
   }
   const payload = {
-      text: mainText,
-      attachments,
-    };
-    const options = {
-      method: 'post',
-      url: response_url,
-      json: true,
-      body: payload
-    }
-    return request(options).then((slackResponse) => {
-      logger.info('slackResponse:', slackResponse);
-      logger.debug(`Check In: ${data.ticket.attributes.name}`);
-    });
+    text: mainText,
+    attachments,
+  };
+  const options = {
+    method: 'post',
+    url: response_url,
+    json: true,
+    body: payload
+  }
+  return request(options).then((slackResponse) => {
+    logger.info('slackResponse:', slackResponse);
+    logger.debug(`Check In: ${data.ticket.attributes.name}`);
+  });
 }
