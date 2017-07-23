@@ -10,7 +10,7 @@ files.forEach(file => {
   if (splitFile.length <= 2) {
     const extention = splitFile[splitFile.length - 1];
     const filename = splitFile[0];
-    if (filename !== 'index' && extention === 'js') {
+    if (filename !== 'index' && extention === 'json') {
       module.exports[filename] = require(`${__dirname}/${filename}`);
     }
   }
