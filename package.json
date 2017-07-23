@@ -4,7 +4,8 @@
   "description": "A simple express app to be the backend for the NodeSchool Toronto SlackApp",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "mocha ./tests/**/**.test.js"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
