@@ -56,6 +56,7 @@ router.route('/')
       })
       .catch((err) => {
         logger.error('caught error:', err);
+        return handleSlackResponse(err, {}, response_url);
     });
   });
 
