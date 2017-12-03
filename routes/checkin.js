@@ -41,18 +41,22 @@ router.route('/')
 
     titoApi.getLatestEvent()
       .then((event) => {
+        logger.debug('Lastest event:', event);
         data.event = event;
         return titoApi.getCheckinList(event);
       })
       .then((checkinList) => {
+        logger.debug('Checkin List:', checkinList);
         data.checkinList = checkinList;
         return titoApi.getTicket(data.event, email);
       })
       .then((ticket) => {
+        logger.debug('Ticket:', ticket);
         data.ticket = ticket;
         return titoApi.checkInUser(data);
       })
       .then((checkinResponse) => {
+        logger.debug('Checkin Reponse:', checkinResponse);
         logger.info('checkinReponse:', checkinResponse);
         return handleSlackResponse(null, data, response_url);
       })
