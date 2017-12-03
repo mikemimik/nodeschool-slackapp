@@ -56,7 +56,6 @@ router.route('/')
         return titoApi.checkInUser(data);
       })
       .then((checkinResponse) => {
-        logger.debug('Checkin Reponse:', checkinResponse);
         logger.info('checkinReponse:', checkinResponse);
         return handleSlackResponse(null, data, response_url);
       })
