@@ -21,27 +21,28 @@ module.exports.getLatestEvent = function() {
     url: api + endpoint
   };
   const callback = function(body) {
-    const sortedEvents = _.sortBy(
-      body.data,
-      [
-        (event) => {
-          const date = (event.attributes['start-date'])
-            ? event.attributes['start-date']
-            : event.attributes['end-date'];
-          const year = (date) ? date.split('-')[0] : null;
-          if (!year) logger.debug('Event Attributes:', event.attributes);
-          return year;
-        },
-        (event) => {
-          const date = (event.attributes['start-date'])
-            ? event.attributes['start-date']
-            : event.attributes['end-date'];
-          const month = (date) ? date.split('-')[1] : null;
-          if (!month) logger.debug('Event Attributes:', event.attributes);
-          return month;
-        }
-      ]
-    );
+    const sortedEvents = _.chain(data.body)
+      .filter((event) => (event['start-date'] || event['end-date']))
+      .sortBy(
+        [
+          (event) => {
+            const date = (event.attributes['start-date'])
+              ? event.attributes['start-date']
+              : event.attributes['end-date'];
+            const year = (date) ? date.split('-')[0] : null;
+            if (!year) logger.debug('Event Attributes:', event.attributes);
+            return year;
+          },
+          (event) => {
+            const date = (event.attributes['start-date'])
+              ? event.attributes['start-date']
+              : event.attributes['end-date'];
+            const month = (date) ? date.split('-')[1] : null;
+            if (!month) logger.debug('Event Attributes:', event.attributes);
+            return month;
+          }
+        ]
+      );
     const latestEvent = sortedEvents.pop();
     return latestEvent;
   }
