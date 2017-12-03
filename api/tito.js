@@ -22,7 +22,7 @@ module.exports.getLatestEvent = function() {
   };
   const callback = function(body) {
     const sortedEvents = _.chain(body.data)
-      .filter((event) => (event['start-date'] || event['end-date']))
+      .filter((event) => (event.attributes['start-date'] || event.attributes['end-date']))
       .sortBy(
         [
           (event) => {
