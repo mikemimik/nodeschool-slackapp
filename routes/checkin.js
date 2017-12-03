@@ -29,7 +29,9 @@ router.route('/')
     }
 
     // INFO(mperrotte): bail if no email
-    return res.json({ text: 'No email supplied.' });
+    if (!email) {
+      return res.json({ text: 'No email supplied.' });
+    }
 
     // INFO(mperrotte): basically a state object to hold response data from tito
     const data = {};
