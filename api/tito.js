@@ -21,7 +21,7 @@ module.exports.getLatestEvent = function() {
     url: api + endpoint
   };
   const callback = function(body) {
-    const sortedEvents = _.chain(data.body)
+    const sortedEvents = _.chain(body.data)
       .filter((event) => (event['start-date'] || event['end-date']))
       .sortBy(
         [
