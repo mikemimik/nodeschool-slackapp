@@ -42,7 +42,8 @@ module.exports.getLatestEvent = function() {
             return month;
           }
         ]
-      );
+      )
+      .value();
     const latestEvent = sortedEvents.pop();
     return latestEvent;
   }
