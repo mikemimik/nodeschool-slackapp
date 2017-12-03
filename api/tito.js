@@ -73,6 +73,7 @@ module.exports.getTicket = function(event, email) {
     const ticket = _.find(tickets, (ticket) => {
       return ticket.attributes.email === email;
     });
+    if (!ticket) throw new Error('No ticket found for email address.');
     return ticket;
   };
   return request(_.merge(defaultOptions, options)).then(callback);
