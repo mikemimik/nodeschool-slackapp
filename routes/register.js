@@ -5,7 +5,7 @@ const request = require('request-promise');
 const titiApi = require('../api/tito');
 const logger = require('../utils/logger').getLogger('debug');
 
-const reouter = express.Router();
+const router = express.Router();
 
 router.route('/')
   .post((req, res, next) => {
