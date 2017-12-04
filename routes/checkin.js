@@ -41,7 +41,7 @@ router.route('/')
 
     titoApi.getLatestEvent()
       .then((event) => {
-        logger.debug('Lastest event:', event);
+        logger.debug('Latest event:', event);
         data.event = event;
         return titoApi.getCheckinList(event);
       })
