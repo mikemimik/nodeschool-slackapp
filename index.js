@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', require('./routes/index'));
 app.use('/checkin', require('./routes/checkin'));
 app.use('/links', require('./routes/links'));
+app.use('/register', require('./routes/register'));
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'));
