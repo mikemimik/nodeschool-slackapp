@@ -12,7 +12,7 @@ class Events {
     this.resource = 'events';
     this.uri = uri;
     this.requestOptions = defaultRequestOptions;
-    logger.silly('Successfully created Ticket resource');
+    logger.silly('Successfully created Event resource');
   }
 
   // NOTE(mperrotte): Posting structure?
@@ -27,11 +27,11 @@ class Events {
   // }
 
   create (data) {
-    logger.debug('ticket/update:', data);
+    logger.debug('event/create.entry:', data);
 
     // INFO(mperrotte): initial param validation
     if (!data) { throw new Error('missing.param.DATA'); }
-    
+
     let { slug } = data;
     const {
       title,
@@ -83,29 +83,64 @@ class Events {
         throw new Error('event/create.error');
       });
   }
+
   get (data) {
-    logger.debug('ticket/update:', data);
+    logger.debug('event/get.entry:', data);
 
     // INFO(mperrotte): initial param validation
     if (!data) { throw new Error('missing.param.DATA'); }
-    throw new Error('not.implemented');
+    const { event } = data;
+
+    // INFO(mperrotte): incoming param validation
+    if (!event) { throw new Error('missing.option.EVENT'); }
+    if (event && !event.id) { throw new Error('missing.option.EVENT:ID'); }
+    const endpoint = `/${event.id}`;
+    const options = {
+      method: 'get',
+      url: this.uri + endpoint
+    };
+    return request(_.merge(this.requestOptions, options))
+      .then((data) => {
+        logger.debug('event/get.success:', data);
+        return data;
+      })
+      .catch((err) => {
+        logger.error('event/get.error:', err);
+        throw new Error('event/get.error');
+      });
   }
+
   list (data) {
-    logger.debug('ticket/update:', data);
+    logger.debug('event/list.entry:', data);
 
     // INFO(mperrotte): initial param validation
     if (!data) { throw new Error('missing.param.DATA'); }
-    throw new Error('not.implemented');
+
+    const endpoint = `/${this.resource}`;
+    const options = {
+      method: 'get',
+      url: this.uri + endpoint
+    };
+    return request(_.merge(this.requestOptions, options))
+      .then((data) => {
+        logger.debug('event/list.success:', data);
+        return data;
+      })
+      .catch((err) => {
+        logger.error('event/list.error:', err);
+        throw new Error('event/list.error');
+      });
   }
+
   update (data) {
-    logger.debug('ticket/update:', data);
+    logger.debug('event/update.entry:', data);
 
     // INFO(mperrotte): initial param validation
     if (!data) { throw new Error('missing.param.DATA'); }
     throw new Error('not.implemented');
   }
   delete (data) {
-    logger.debug('ticket/update:', data);
+    logger.debug('event/delete.entry:', data);
 
     // INFO(mperrotte): initial param validation
     if (!data) { throw new Error('missing.param.DATA'); }
