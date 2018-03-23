@@ -87,9 +87,9 @@ class Tickets {
       }
     };
     return request(_.merge(this.requestOptions, options))
-      .then((data) => {
-        logger.debug('ticket/create.success:', data);
-        return data;
+      .then((res) => {
+        logger.debug('ticket/create.success:', res);
+        return res;
       })
       .catch((err) => {
         logger.error('ticket/create.error:', err);
@@ -117,9 +117,9 @@ class Tickets {
       url: this.uri + endpoint
     };
     return request(_.merge(this.requestOptions, options))
-      .then((data) => {
-        logger.debug('ticket/get.success:', data);
-        return data;
+      .then((res) => {
+        logger.debug('ticket/get.success:', res);
+        return res;
       })
       .catch((err) => {
         logger.error('ticket/get.error:', err);
@@ -146,9 +146,9 @@ class Tickets {
       url: this.uri + endpoint
     };
     return request(_.merge(this.requestOptions, options))
-      .then((data) => {
-        logger.debug('ticket/list.success:', data);
-        return data;
+      .then((res) => {
+        logger.debug('ticket/list.success:', res);
+        return res;
       })
       .catch((err) => {
         logger.error('ticket/list.error:', err);
