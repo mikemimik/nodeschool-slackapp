@@ -74,9 +74,9 @@ class Events {
       }
     };
     return request(_.merge(this.requestOptions, options))
-      .then((data) => {
-        logger.debug('event/create.success:', data);
-        return data;
+      .then((res) => {
+        logger.debug('event/create.success:', res);
+        return res;
       })
       .catch((err) => {
         logger.error('event/create.error', err);
@@ -100,9 +100,9 @@ class Events {
       url: this.uri + endpoint
     };
     return request(_.merge(this.requestOptions, options))
-      .then((data) => {
-        logger.debug('event/get.success:', data);
-        return data;
+      .then((res) => {
+        logger.debug('event/get.success:', res);
+        return res;
       })
       .catch((err) => {
         logger.error('event/get.error:', err);
@@ -110,11 +110,61 @@ class Events {
       });
   }
 
-  list (data) {
-    logger.debug('event/list.entry:', data);
+  getLatest () {
+    logger.debug('event/getLatest.entry');
 
-    // INFO(mperrotte): initial param validation
-    if (!data) { throw new Error('missing.param.DATA'); }
+    const endpoint = `/${this.resource}`;
+    const options = {
+      method: 'get',
+      url: this.uri + endpoint
+    };
+
+    return request(_.merge(this.requestOptions, options))
+      .then((res) => {
+        const sortedEvents = _.chain(res.data)
+          .filter((e) => (e.attributes['start-date'] || e.attributes['end-date']))
+          .sortBy(
+            [
+              (event) => {
+                const date = (event.attributes['start-date'])
+                  ? event.attributes['start-date']
+                  : event.attributes['end-date'];
+                const year = (date) ? date.split('-')[0] : null;
+                if (!year) {
+                  logger.debug(
+                    'event/getLatest.DATA:DATA:EVENTS[]:ATTRIBUTES.error:',
+                    event.attributes
+                  );
+                }
+                return year;
+              },
+              (event) => {
+                const date = (event.attributes['start-date'])
+                  ? event.attributes['start-date']
+                  : event.attributes['end-date'];
+                const month = (date) ? date.split('-')[1] : null;
+                if (!month) {
+                  logger.debug(
+                    'event/getLatest.DATA:DATA:EVENTS[]:ATTRIBUTES.error:',
+                    event.attributes
+                  );
+                }
+                return month;
+              }
+            ]
+          )
+          .value();
+        const latestEvent = sortedEvents.pop();
+        return latestEvent;
+      })
+      .catch((err) => {
+        logger.error('event/getLatest.error:', err);
+        throw new Error('event/getLatest.error');
+      });
+  }
+
+  list () {
+    logger.debug('event/list.entry');
 
     const endpoint = `/${this.resource}`;
     const options = {
@@ -122,9 +172,9 @@ class Events {
       url: this.uri + endpoint
     };
     return request(_.merge(this.requestOptions, options))
-      .then((data) => {
-        logger.debug('event/list.success:', data);
-        return data;
+      .then((res) => {
+        logger.debug('event/list.success:', res);
+        return res;
       })
       .catch((err) => {
         logger.error('event/list.error:', err);
